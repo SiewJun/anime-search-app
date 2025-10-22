@@ -1,26 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/card";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SearchPage } from './pages/SearchPage';
 
 function App() {
   return (
-    <>
-      <p className="text-center text-green-300">test</p>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Test</CardTitle>
-          <CardDescription>Testing ShadcCN</CardDescription>
-        </CardHeader>
-        <CardContent>Content</CardContent>
-        <CardFooter>Date</CardFooter>
-      </Card>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SearchPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
