@@ -102,7 +102,7 @@ export function AnimeDetailPage() {
         <div className="container mx-auto p-4">
           <Button variant="ghost" onClick={handleBack}>
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Search
+            Back
           </Button>
         </div>
       </header>
