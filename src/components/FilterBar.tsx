@@ -42,7 +42,7 @@ export function FilterBar({
     filters.type !== "all" ||
     filters.rating !== "all" ||
     filters.orderBy !== "mal_id" ||
-    filters.sort !== "desc";
+    filters.sort !== "asc";
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);

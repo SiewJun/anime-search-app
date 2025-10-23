@@ -161,7 +161,6 @@ export interface AnimeState {
   lastVisiblePage: number;
   totalItems: number;
   searchQuery: string;
-  scrollPosition: number;
   filters: {
     type: string;
     rating: string;

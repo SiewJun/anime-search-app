@@ -21,7 +21,6 @@ export {
   fetchAnimeById,
   setSearchQuery,
   setCurrentPage,
-  setScrollPosition,
   setFilter,
   resetFilters,
   clearAnimeList,

@@ -10,7 +10,6 @@ import {
   searchAnime, 
   setSearchQuery, 
   setCurrentPage, 
-  setScrollPosition,
   setFilter,
   resetFilters,
   clearAnimeList 
@@ -25,7 +24,7 @@ import { Pagination } from "../components/ui/pagination";
 export function SearchPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { animeList, loading, error, currentPage, searchQuery, totalItems, scrollPosition, filters } = useAppSelector(
+  const { animeList, loading, error, currentPage, searchQuery, totalItems, filters } = useAppSelector(
     (state) => state.anime
   );
   
@@ -35,12 +34,6 @@ export function SearchPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const showCenteredLayout = !loading && animeList.length === 0;
-
-  useEffect(() => {
-    if (scrollPosition > 0 && animeList.length > 0) {
-      window.scrollTo(0, scrollPosition);
-    }
-  }, [scrollPosition, animeList.length]);
 
   useEffect(() => {
     const focusTimer = setTimeout(() => {
@@ -108,7 +101,6 @@ export function SearchPage() {
   };
 
   const handleAnimeClick = (malId: number) => {
-    dispatch(setScrollPosition(window.scrollY));
     navigate(`/anime/${malId}`);
   };
 

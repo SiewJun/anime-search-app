@@ -24,7 +24,6 @@ const initialState: AnimeState = {
   lastVisiblePage: 1,
   totalItems: 0,
   searchQuery: "",
-  scrollPosition: 0,
   filters: {
     type: "all",
     rating: "all",
@@ -106,9 +105,6 @@ const animeSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-    setScrollPosition: (state, action: PayloadAction<number>) => {
-      state.scrollPosition = action.payload;
-    },
     setFilter: (
       state,
       action: PayloadAction<{
@@ -183,7 +179,6 @@ const animeSlice = createSlice({
 export const {
   setSearchQuery,
   setCurrentPage,
-  setScrollPosition,
   setFilter,
   resetFilters,
   clearAnimeList,
