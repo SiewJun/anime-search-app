@@ -49,14 +49,14 @@ export function AnimeDetailPage() {
     return (
       <div className="min-h-screen bg-background">
         <header className="border-b border-border bg-background">
-          <div className="container mx-auto p-4">
+          <div className="mx-auto p-4">
             <Button variant="ghost" onClick={handleBack}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
           </div>
         </header>
-        <main className="container mx-auto p-4">
+        <main className="mx-auto p-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1">
               <Skeleton className="w-full aspect-2/3" />
@@ -76,14 +76,14 @@ export function AnimeDetailPage() {
     return (
       <div className="min-h-screen bg-background">
         <header className="border-b border-border bg-background">
-          <div className="container mx-auto p-4">
+          <div className="mx-auto p-4">
             <Button variant="ghost" onClick={handleBack}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
           </div>
         </header>
-        <main className="container mx-auto p-4">
+        <main className="mx-auto p-4">
           <Alert className="bg-destructive/10 border-destructive text-destructive">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
@@ -99,7 +99,7 @@ export function AnimeDetailPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-background sticky top-0 z-10">
-        <div className="container mx-auto p-4">
+        <div className="mx-auto p-4">
           <Button variant="ghost" onClick={handleBack}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back

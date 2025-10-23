@@ -6,7 +6,9 @@ export { SearchHeader } from "./SearchHeader";
 export { SearchSuggestions } from "./SearchSuggestions";
 export { EmptyState } from "./EmptyState";
 export { FilterBar } from "./FilterBar";
+export { AnimeRecommendations } from "./AnimeRecommendations";
+
 export type { FilterValues } from "./FilterBar";
 
-// Anime Recommendations
-export { AnimeRecommendations } from "./AnimeRecommendations";
+// Utilities
+export { ScrollToTop } from "./ScrollToTop";
