@@ -56,16 +56,19 @@ export function FilterBar({
           <Button
             variant="ghost"
             size="sm"
-            className="flex items-center gap-2 hover:bg-accent p-2 -ml-2"
+            className="flex items-center gap-2 hover:bg-accent p-2 -ml-2 rounded-lg transition-all duration-200 hover:scale-105 group"
           >
-            <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground">
+            <Filter className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors duration-200" />
+            <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-200">
               Filters
             </span>
+            {hasActiveFilters && (
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            )}
             {isVisible ? (
-              <ChevronUp className="w-4 h-4 text-muted-foreground" />
+              <ChevronUp className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all duration-200" />
             ) : (
-              <ChevronDown className="w-4 h-4 text-muted-foreground" />
+              <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all duration-200" />
             )}
           </Button>
         </CollapsibleTrigger>
@@ -74,24 +77,25 @@ export function FilterBar({
             variant="ghost"
             size="sm"
             onClick={onReset}
-            className="ml-auto text-xs text-primary hover:underline"
+            className="ml-auto text-xs text-primary hover:underline hover:text-primary/80 transition-colors duration-200 hover:scale-105"
           >
             Reset
           </Button>
         )}
       </div>
 
-      <CollapsibleContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
-            Type
+      <CollapsibleContent className="animate-in slide-in-from-top-2 duration-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 p-4 bg-muted/30 rounded-lg border border-border/50">
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+            <span>Type</span>
+            {filters.type !== "all" && <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />}
           </label>
           <Select
             value={filters.type}
             onValueChange={(value) => onFilterChange("type", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full hover:border-primary/50 transition-colors duration-200 focus:ring-2 focus:ring-primary/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -106,15 +110,16 @@ export function FilterBar({
           </Select>
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
-            Rating
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+            <span>Rating</span>
+            {filters.rating !== "all" && <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />}
           </label>
           <Select
             value={filters.rating}
             onValueChange={(value) => onFilterChange("rating", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full hover:border-primary/50 transition-colors duration-200 focus:ring-2 focus:ring-primary/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -130,15 +135,16 @@ export function FilterBar({
           </Select>
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
-            Order By
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+            <span>Order By</span>
+            {filters.orderBy !== "mal_id" && <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />}
           </label>
           <Select
             value={filters.orderBy}
             onValueChange={(value) => onFilterChange("orderBy", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full hover:border-primary/50 transition-colors duration-200 focus:ring-2 focus:ring-primary/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -157,15 +163,16 @@ export function FilterBar({
           </Select>
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">
-            Sort
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+            <span>Sort</span>
+            {filters.sort !== "asc" && <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />}
           </label>
           <Select
             value={filters.sort}
             onValueChange={(value) => onFilterChange("sort", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full hover:border-primary/50 transition-colors duration-200 focus:ring-2 focus:ring-primary/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
