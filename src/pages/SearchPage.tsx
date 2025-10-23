@@ -262,7 +262,7 @@ export function SearchPage() {
                         <img
                           src={anime.images.jpg.large_image_url || anime.images.jpg.image_url}
                           alt={anime.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                           loading="lazy"
                         />
                         {anime.score > 0 && (

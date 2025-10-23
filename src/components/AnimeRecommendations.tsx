@@ -98,9 +98,9 @@ export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0" />
               </div>
-              <h3 className="mt-2 text-sm font-medium line-clamp-2 group-hover:text-primary transition-colors">
+              <h3 className="mt-2 text-sm font-medium line-clamp-2">
                 {rec.entry.title}
               </h3>
             </div>
