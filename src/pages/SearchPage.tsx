@@ -120,7 +120,7 @@ export function SearchPage() {
   return (
     <div className="min-h-screen bg-background">
       {showCenteredLayout ? (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12">
+        <div className="flex flex-col items-center min-h-screen px-4 py-12">
           <div className="w-full max-w-2xl flex flex-col items-center gap-6">
             <div className="flex flex-col items-center gap-4 mb-2">
               <img
@@ -148,42 +148,40 @@ export function SearchPage() {
                 placeholder="Search for Naruto, One Piece, etc."
               />
               {!inputValue.trim() && (
-              <div className="text-center mt-6 space-y-3">
-                <div className="flex flex-wrap justify-center gap-2">
-                  <Badge
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("Naruto")}
-                  >
-                    Naruto
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("One Piece")}
-                  >
-                    One Piece
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("Attack on Titan")}
-                  >
-                    Attack on Titan
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("Demon Slayer")}
-                  >
-                    Demon Slayer
-                  </Badge>
+                <div className="text-center mt-6 space-y-3">
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <Badge
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                      onClick={() => setInputValue("Naruto")}
+                    >
+                      Naruto
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                      onClick={() => setInputValue("One Piece")}
+                    >
+                      One Piece
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                      onClick={() => setInputValue("Attack on Titan")}
+                    >
+                      Attack on Titan
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                      onClick={() => setInputValue("Demon Slayer")}
+                    >
+                      Demon Slayer
+                    </Badge>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             </div>
-
-            
 
             <div className="w-full">
               <FilterBar
@@ -217,7 +215,7 @@ export function SearchPage() {
       ) : (
         <>
           <header className="border-border border-b sticky top-0 z-10 bg-background">
-            <div className="container mx-auto lg:p-2 p-4">
+            <div className="container mx-auto p-4">
               <div className="flex flex-col lg:flex-row justify-between items-center gap-2 lg:gap-4">
                 <img
                   src={SearchAnimeIcon}
