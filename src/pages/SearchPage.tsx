@@ -196,6 +196,14 @@ export function SearchPage() {
             )}
 
             <div className="mt-6">
+              {!loading && animeList.length > 0 && (
+                <>
+                  <div className="mb-4 text-sm text-muted-foreground">
+                    Found {totalItems.toLocaleString()} results for "
+                    {searchQuery}"
+                  </div>
+                </>
+              )}
               <AnimeGrid
                 animeList={animeList}
                 loading={loading}
@@ -205,11 +213,6 @@ export function SearchPage() {
 
             {!loading && animeList.length > 0 && (
               <>
-                <div className="mb-4 text-sm text-muted-foreground">
-                  Found {totalItems.toLocaleString()} results for "{searchQuery}
-                  "
-                </div>
-
                 <div className="mt-8 mb-4">
                   <Pagination
                     currentPage={currentPage}

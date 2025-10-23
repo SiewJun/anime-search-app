@@ -1,5 +1,5 @@
 import { Input } from "./ui/input";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { forwardRef } from "react";
 
 interface SearchBarProps {
@@ -21,8 +21,14 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange(e.target.value)
           }
-          className="pl-10 h-10 font-medium border-2 rounded-lg placeholder:text-muted shadow-md"
+          className="pl-10 pr-10 h-10 font-medium border-2 rounded-lg placeholder:text-muted shadow-md"
         />
+        {value && (
+          <X
+            className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 cursor-pointer hover:text-foreground"
+            onClick={() => onChange("")}
+          />
+        )}
       </div>
     );
   }
