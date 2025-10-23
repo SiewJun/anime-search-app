@@ -13,7 +13,7 @@ function AnimeCardSkeleton() {
   return (
     <Card className="overflow-hidden animate-pulse">
       <div className="relative aspect-square sm:aspect-2/3 overflow-hidden bg-muted">
-        <div className="absolute inset-0 bg-linear-to-r from-transparent via-muted-foreground/10 to-transparent animate-shimmer" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-muted-foreground/10 to-transparent" />
       </div>
       <CardHeader className="px-3">
         <div className="h-4 bg-muted rounded animate-pulse" />
