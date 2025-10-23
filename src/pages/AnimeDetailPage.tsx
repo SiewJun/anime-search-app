@@ -21,6 +21,7 @@ import {
   Play,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { AnimeRecommendations } from "../components/AnimeRecommendations";
 
 export function AnimeDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -473,6 +474,8 @@ export function AnimeDetailPage() {
           </div>
         </div>
       </main>
+
+      <AnimeRecommendations animeId={selectedAnime.mal_id} />
     </div>
   );
 }
