@@ -4,15 +4,15 @@ import type { FilterValues } from "../components/FilterBar";
 import SearchAnimeIcon from "../assets/search-anime.svg";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  useAppDispatch, 
+import {
+  useAppDispatch,
   useAppSelector,
-  searchAnime, 
-  setSearchQuery, 
-  setCurrentPage, 
+  searchAnime,
+  setSearchQuery,
+  setCurrentPage,
   setFilter,
   resetFilters,
-  clearAnimeList 
+  clearAnimeList,
 } from "../store";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -24,10 +24,16 @@ import { Pagination } from "../components/ui/pagination";
 export function SearchPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { animeList, loading, error, currentPage, searchQuery, totalItems, filters } = useAppSelector(
-    (state) => state.anime
-  );
-  
+  const {
+    animeList,
+    loading,
+    error,
+    currentPage,
+    searchQuery,
+    totalItems,
+    filters,
+  } = useAppSelector((state) => state.anime);
+
   const [inputValue, setInputValue] = useState(searchQuery);
   const [hasSearched, setHasSearched] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -52,18 +58,20 @@ export function SearchPage() {
 
     const debounceTimer = setTimeout(() => {
       dispatch(setSearchQuery(inputValue));
-      
+
       if (inputValue.trim()) {
         setHasSearched(true);
-        dispatch(searchAnime({ 
-          q: inputValue, 
-          page: 1, 
-          limit: 20,
-          type: filters.type,
-          rating: filters.rating,
-          order_by: filters.orderBy,
-          sort: filters.sort,
-        }));
+        dispatch(
+          searchAnime({
+            q: inputValue,
+            page: 1,
+            limit: 20,
+            type: filters.type,
+            rating: filters.rating,
+            order_by: filters.orderBy,
+            sort: filters.sort,
+          })
+        );
       } else {
         setHasSearched(false);
         dispatch(clearAnimeList());
@@ -75,7 +83,10 @@ export function SearchPage() {
     };
   }, [inputValue, filters, dispatch]);
 
-  const handleFilterChange = (filterName: keyof FilterValues, value: string) => {
+  const handleFilterChange = (
+    filterName: keyof FilterValues,
+    value: string
+  ) => {
     dispatch(setFilter({ name: filterName, value }));
   };
 
@@ -85,19 +96,21 @@ export function SearchPage() {
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1) return;
-    
+
     dispatch(setCurrentPage(newPage));
-    dispatch(searchAnime({ 
-      q: searchQuery, 
-      page: newPage, 
-      limit: 20,
-      type: filters.type,
-      rating: filters.rating,
-      order_by: filters.orderBy,
-      sort: filters.sort,
-    }));
-    
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    dispatch(
+      searchAnime({
+        q: searchQuery,
+        page: newPage,
+        limit: 20,
+        type: filters.type,
+        rating: filters.rating,
+        order_by: filters.orderBy,
+        sort: filters.sort,
+      })
+    );
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleAnimeClick = (malId: number) => {
@@ -110,14 +123,16 @@ export function SearchPage() {
         <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12">
           <div className="w-full max-w-2xl flex flex-col items-center gap-6">
             <div className="flex flex-col items-center gap-4 mb-2">
-              <img 
-                src={SearchAnimeIcon} 
-                className="w-24 h-24 opacity-90" 
-                alt="Search Anime" 
+              <img
+                src={SearchAnimeIcon}
+                className="w-24 h-24 opacity-90"
+                alt="Search Anime"
               />
               <div className="text-center space-y-2">
                 <h1 className="text-3xl font-bold tracking-tight">
-                  <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">Anime Search</span>
+                  <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    Anime Search
+                  </span>
                 </h1>
                 <p className="text-muted-foreground text-base max-w-lg">
                   Discover your next favorite anime from thousands of titles
@@ -132,7 +147,43 @@ export function SearchPage() {
                 onChange={setInputValue}
                 placeholder="Search for Naruto, One Piece, etc."
               />
+              {!inputValue.trim() && (
+              <div className="text-center mt-6 space-y-3">
+                <div className="flex flex-wrap justify-center gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                    onClick={() => setInputValue("Naruto")}
+                  >
+                    Naruto
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                    onClick={() => setInputValue("One Piece")}
+                  >
+                    One Piece
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                    onClick={() => setInputValue("Attack on Titan")}
+                  >
+                    Attack on Titan
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                    onClick={() => setInputValue("Demon Slayer")}
+                  >
+                    Demon Slayer
+                  </Badge>
+                </div>
+              </div>
+            )}
             </div>
+
+            
 
             <div className="w-full">
               <FilterBar
@@ -148,54 +199,19 @@ export function SearchPage() {
               </Alert>
             )}
 
-            {hasSearched && !loading && animeList.length === 0 && inputValue.trim() && (
-              <div className="text-center space-y-2 mt-4">
-                <p className="text-lg font-semibold text-muted-foreground">
-                  No Results Found
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Try searching for a different anime title
-                </p>
-              </div>
-            )}
-
-            {!inputValue.trim() && (
-              <div className="text-center mt-6 space-y-3">
-                <p className="text-sm text-muted-foreground">
-                  Try searching for popular anime like:
-                </p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  <Badge 
-                    variant="secondary" 
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("Naruto")}
-                  >
-                    Naruto
-                  </Badge>
-                  <Badge 
-                    variant="secondary" 
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("One Piece")}
-                  >
-                    One Piece
-                  </Badge>
-                  <Badge 
-                    variant="secondary" 
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("Attack on Titan")}
-                  >
-                    Attack on Titan
-                  </Badge>
-                  <Badge 
-                    variant="secondary" 
-                    className="cursor-pointer hover:bg-secondary/80 transition-colors"
-                    onClick={() => setInputValue("Demon Slayer")}
-                  >
-                    Demon Slayer
-                  </Badge>
+            {hasSearched &&
+              !loading &&
+              animeList.length === 0 &&
+              inputValue.trim() && (
+                <div className="text-center space-y-2 mt-4">
+                  <p className="text-lg font-semibold text-muted-foreground">
+                    No Results Found
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Try searching for a different anime title
+                  </p>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       ) : (
@@ -203,7 +219,11 @@ export function SearchPage() {
           <header className="border-border border-b sticky top-0 z-10 bg-background">
             <div className="container mx-auto lg:p-2 p-4">
               <div className="flex flex-col lg:flex-row justify-between items-center gap-2 lg:gap-4">
-                <img src={SearchAnimeIcon} className="w-16 h-16" alt="Search Anime" />
+                <img
+                  src={SearchAnimeIcon}
+                  className="w-16 h-16"
+                  alt="Search Anime"
+                />
                 <SearchBar
                   ref={inputRef}
                   value={inputValue}
@@ -229,10 +249,12 @@ export function SearchPage() {
             )}
 
             {loading && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
                 {Array.from({ length: 10 }).map((_, index) => (
                   <Card key={index} className="overflow-hidden">
-                    <Skeleton className="w-full h-[300px]" />
+                    <div className="relative aspect-square sm:aspect-2/3 overflow-hidden">
+                      <Skeleton className="w-full h-full" />
+                    </div>
                     <CardHeader>
                       <Skeleton className="h-6 w-3/4" />
                     </CardHeader>
@@ -248,19 +270,23 @@ export function SearchPage() {
             {!loading && animeList.length > 0 && (
               <>
                 <div className="mb-4 text-sm text-muted-foreground">
-                  Found {totalItems.toLocaleString()} results for "{searchQuery}"
+                  Found {totalItems.toLocaleString()} results for "{searchQuery}
+                  "
                 </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                   {animeList.map((anime) => (
-                    <Card 
-                      key={anime.mal_id} 
+                    <Card
+                      key={anime.mal_id}
                       className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                       onClick={() => handleAnimeClick(anime.mal_id)}
                     >
-                      <div className="relative aspect-2/3 overflow-hidden">
+                      <div className="relative aspect-square sm:aspect-2/3 overflow-hidden">
                         <img
-                          src={anime.images.jpg.large_image_url || anime.images.jpg.image_url}
+                          src={
+                            anime.images.jpg.large_image_url ||
+                            anime.images.jpg.image_url
+                          }
                           alt={anime.title}
                           className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                           loading="lazy"
@@ -272,14 +298,14 @@ export function SearchPage() {
                           </div>
                         )}
                       </div>
-                      
-                      <CardHeader className="p-3">
-                        <h3 className="font-semibold text-sm line-clamp-2 min-h-10">
+
+                      <CardHeader className="px-3">
+                        <h3 className="font-semibold text-sm line-clamp-2 min-h-8 sm:min-h-10">
                           {anime.title}
                         </h3>
                       </CardHeader>
-                      
-                      <CardContent className="p-3 pt-0">
+
+                      <CardContent className="px-3">
                         <div className="flex flex-wrap gap-1 mb-2">
                           {anime.type && (
                             <Badge variant="secondary" className="text-xs">

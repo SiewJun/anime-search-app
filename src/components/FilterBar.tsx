@@ -8,6 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 export interface FilterValues {
   type: string;
@@ -44,29 +49,26 @@ export function FilterBar({
     filters.orderBy !== "mal_id" ||
     filters.sort !== "asc";
 
-  const toggleVisibility = () => {
-    setIsVisible(!isVisible);
-  };
-
   return (
-    <div className="w-full">
+    <Collapsible open={isVisible} onOpenChange={setIsVisible} className="w-full">
       <div className="flex items-center gap-2 mb-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={toggleVisibility}
-          className="flex items-center gap-2 hover:bg-accent p-2 -ml-2"
-        >
-          <Filter className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">
-            Filters
-          </span>
-          {isVisible ? (
-            <ChevronUp className="w-4 h-4 text-muted-foreground" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-muted-foreground" />
-          )}
-        </Button>
+        <CollapsibleTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center gap-2 hover:bg-accent p-2 -ml-2"
+          >
+            <Filter className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground">
+              Filters
+            </span>
+            {isVisible ? (
+              <ChevronUp className="w-4 h-4 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-muted-foreground" />
+            )}
+          </Button>
+        </CollapsibleTrigger>
         {hasActiveFilters && onReset && isVisible && (
           <Button
             variant="ghost"
@@ -79,7 +81,7 @@ export function FilterBar({
         )}
       </div>
 
-      {isVisible && (
+      <CollapsibleContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-muted-foreground">
@@ -173,7 +175,7 @@ export function FilterBar({
           </Select>
         </div>
       </div>
-      )}
-    </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
