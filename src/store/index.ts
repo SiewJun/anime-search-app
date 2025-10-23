@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit';
-import animeReducer from './slices/animeSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import animeReducer from "./slices/animeSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,13 +14,17 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export { useAppDispatch, useAppSelector } from './hooks';
+export { useAppDispatch, useAppSelector } from "./hooks";
 
 export {
   searchAnime,
+  fetchAnimeById,
   setSearchQuery,
   setCurrentPage,
+  setScrollPosition,
+  setFilter,
+  resetFilters,
   clearAnimeList,
   clearError,
   clearSelectedAnime,
-} from './slices/animeSlice';
+} from "./slices/animeSlice";

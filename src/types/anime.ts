@@ -120,9 +120,40 @@ export interface AnimeSearchParams {
   sort?: string;
 }
 
+export interface AnimeRelation {
+  relation: string;
+  entry: AnimeEntity[];
+}
+
+export interface AnimeTheme {
+  openings: string[];
+  endings: string[];
+}
+
+export interface AnimeExternal {
+  name: string;
+  url: string;
+}
+
+export interface AnimeStreaming {
+  name: string;
+  url: string;
+}
+
+export interface FullAnime extends Anime {
+  relations: AnimeRelation[];
+  theme: AnimeTheme;
+  external: AnimeExternal[];
+  streaming: AnimeStreaming[];
+}
+
+export interface FullAnimeResponse {
+  data: FullAnime;
+}
+
 export interface AnimeState {
   animeList: Anime[];
-  selectedAnime: Anime | null;
+  selectedAnime: FullAnime | null;
   loading: boolean;
   error: string | null;
   currentPage: number;
@@ -130,4 +161,11 @@ export interface AnimeState {
   lastVisiblePage: number;
   totalItems: number;
   searchQuery: string;
+  scrollPosition: number;
+  filters: {
+    type: string;
+    rating: string;
+    orderBy: string;
+    sort: string;
+  };
 }

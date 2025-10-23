@@ -1,15 +1,21 @@
 import { SearchBar } from "../components/SearchBar";
+import { FilterBar } from "../components/FilterBar";
+import type { FilterValues } from "../components/FilterBar";
 import SearchAnimeIcon from "../assets/search-anime.svg";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   useAppDispatch, 
   useAppSelector,
   searchAnime, 
   setSearchQuery, 
   setCurrentPage, 
+  setScrollPosition,
+  setFilter,
+  resetFilters,
   clearAnimeList 
 } from "../store";
-import { Card, CardContent, CardFooter, CardHeader } from "../components/ui/card";
+import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Skeleton } from "../components/ui/skeleton";
 import { Alert, AlertDescription } from "../components/ui/alert";
@@ -18,7 +24,8 @@ import { Pagination } from "../components/ui/pagination";
 
 export function SearchPage() {
   const dispatch = useAppDispatch();
-  const { animeList, loading, error, currentPage, searchQuery, totalItems } = useAppSelector(
+  const navigate = useNavigate();
+  const { animeList, loading, error, currentPage, searchQuery, totalItems, scrollPosition, filters } = useAppSelector(
     (state) => state.anime
   );
   
@@ -28,6 +35,12 @@ export function SearchPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const showCenteredLayout = !loading && animeList.length === 0;
+
+  useEffect(() => {
+    if (scrollPosition > 0 && animeList.length > 0) {
+      window.scrollTo(0, scrollPosition);
+    }
+  }, [scrollPosition, animeList.length]);
 
   useEffect(() => {
     const focusTimer = setTimeout(() => {
@@ -52,7 +65,11 @@ export function SearchPage() {
         dispatch(searchAnime({ 
           q: inputValue, 
           page: 1, 
-          limit: 20 
+          limit: 20,
+          type: filters.type,
+          rating: filters.rating,
+          order_by: filters.orderBy,
+          sort: filters.sort,
         }));
       } else {
         setHasSearched(false);
@@ -63,7 +80,15 @@ export function SearchPage() {
     return () => {
       clearTimeout(debounceTimer);
     };
-  }, [inputValue, dispatch]);
+  }, [inputValue, filters, dispatch]);
+
+  const handleFilterChange = (filterName: keyof FilterValues, value: string) => {
+    dispatch(setFilter({ name: filterName, value }));
+  };
+
+  const handleResetFilters = () => {
+    dispatch(resetFilters());
+  };
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1) return;
@@ -72,14 +97,19 @@ export function SearchPage() {
     dispatch(searchAnime({ 
       q: searchQuery, 
       page: newPage, 
-      limit: 20
+      limit: 20,
+      type: filters.type,
+      rating: filters.rating,
+      order_by: filters.orderBy,
+      sort: filters.sort,
     }));
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleAnimeClick = (malId: number) => {
-    console.log("Navigating to anime with MAL ID:", malId);
+    dispatch(setScrollPosition(window.scrollY));
+    navigate(`/anime/${malId}`);
   };
 
   return (
@@ -109,6 +139,14 @@ export function SearchPage() {
                 value={inputValue}
                 onChange={setInputValue}
                 placeholder="Search for Naruto, One Piece, etc."
+              />
+            </div>
+
+            <div className="w-full">
+              <FilterBar
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                onReset={handleResetFilters}
               />
             </div>
 
@@ -179,6 +217,13 @@ export function SearchPage() {
                   value={inputValue}
                   onChange={setInputValue}
                   placeholder="Search for Naruto, One Piece, etc."
+                />
+              </div>
+              <div className="mt-4">
+                <FilterBar
+                  filters={filters}
+                  onFilterChange={handleFilterChange}
+                  onReset={handleResetFilters}
                 />
               </div>
             </div>
@@ -261,15 +306,6 @@ export function SearchPage() {
                           </p>
                         )}
                       </CardContent>
-                      
-                      <CardFooter className="p-3 pt-0">
-                        <Badge 
-                          variant={anime.status === "Currently Airing" ? "default" : "secondary"}
-                          className="text-xs w-full justify-center"
-                        >
-                          {anime.status}
-                        </Badge>
-                      </CardFooter>
                     </Card>
                   ))}
                 </div>
