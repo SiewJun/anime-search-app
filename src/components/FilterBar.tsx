@@ -51,7 +51,7 @@ export function FilterBar({
 
   return (
     <Collapsible open={isVisible} onOpenChange={setIsVisible} className="w-full">
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2">
         <CollapsibleTrigger asChild>
           <Button
             variant="ghost"

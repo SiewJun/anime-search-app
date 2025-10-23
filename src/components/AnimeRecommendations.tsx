@@ -78,9 +78,9 @@ export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
   }
 
   return (
-    <div className="bg-muted/25 py-12 mt-8">
+    <div className="py-12 mt-8">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-6">Recommendations</h2>
+        <h2 className="md:text-2xl text-xl font-bold mb-6">Recommendations</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {recommendations.map((rec) => (
             <div
