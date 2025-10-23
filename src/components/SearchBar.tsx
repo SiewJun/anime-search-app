@@ -21,7 +21,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange(e.target.value)
           }
-          className="pl-10 h-10 font-medium border-2 rounded-lg placeholder:text-muted"
+          className="pl-10 h-10 font-medium border-2 rounded-lg placeholder:text-muted shadow-md"
         />
       </div>
     );
