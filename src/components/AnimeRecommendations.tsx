@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { AnimeRecommendation } from "../types/anime";
 import { Skeleton } from "./ui/skeleton";
 import { Alert, AlertDescription } from "./ui/alert";
+import { EmptyState } from "./EmptyState";
 
 interface AnimeRecommendationsProps {
   animeId: number;
@@ -52,7 +53,7 @@ export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold mb-6">Recommendations</h2>
+        <h2 className="md:text-2xl text-xl font-bold mb-6">Recommendations</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {[...Array(12)].map((_, index) => (
             <Skeleton key={index} className="aspect-3/4 w-full rounded-lg" />
@@ -65,7 +66,7 @@ export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold mb-6">Recommendations</h2>
+        <h2 className="md:text-2xl text-xl font-bold mb-6">Recommendations</h2>
         <Alert className="bg-destructive/10 border-destructive text-destructive">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -74,7 +75,15 @@ export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
   }
 
   if (recommendations.length === 0) {
-    return null;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="md:text-2xl text-xl font-bold mb-6">Recommendations</h2>
+        <EmptyState
+          title="No Recommendations"
+          description="No recommendations available for this anime."
+        />
+      </div>
+    );
   }
 
   return (
