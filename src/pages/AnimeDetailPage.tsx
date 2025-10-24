@@ -227,7 +227,7 @@ export function AnimeDetailPage() {
               </div>
             </div>
 
-            {selectedAnime.trailer?.youtube_id && (
+            {selectedAnime.trailer?.embed_url && (
               <Card>
                 <CardHeader>
                   <h2 className="text-2xl font-semibold">Trailer</h2>
@@ -239,7 +239,7 @@ export function AnimeDetailPage() {
                       height="100%"
                       src={selectedAnime.trailer.embed_url}
                       title="Anime Trailer"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       className="rounded-lg"
                     />
