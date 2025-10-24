@@ -172,7 +172,7 @@ export function AnimeDetailPage() {
                     <Calendar className="w-4 h-4 text-muted-foreground" />
                     <span className="text-muted-foreground">Aired:</span>
                     <span className="font-medium text-xs">
-                      {selectedAnime.aired.prop.string}
+                      {selectedAnime.aired.string}
                     </span>
                   </div>
                 </div>

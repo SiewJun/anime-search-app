@@ -29,13 +29,13 @@ export interface AnimeAiredPropDate {
 export interface AnimeAiredProp {
   from: AnimeAiredPropDate;
   to: AnimeAiredPropDate;
-  string: string;
 }
 
 export interface AnimeAired {
   from: string;
   to: string;
   prop: AnimeAiredProp;
+  string: string;
 }
 
 export interface AnimeBroadcast {
