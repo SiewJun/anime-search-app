@@ -13,13 +13,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
-
-export interface FilterValues {
-  type: string;
-  rating: string;
-  orderBy: string;
-  sort: string;
-}
+import type { FilterValues } from "../types/anime";
 
 interface FilterBarProps {
   filters: FilterValues;

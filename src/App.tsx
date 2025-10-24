@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SearchPage } from "./pages/SearchPage";
 import { AnimeDetailPage } from "./pages/AnimeDetailPage";
-import { ScrollToTop } from "./components/ScrollToTop";
+import { ScrollToTop } from "./utils/ScrollToTop";
 
 function App() {
   return (

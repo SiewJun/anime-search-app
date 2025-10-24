@@ -194,3 +194,10 @@ export interface AnimeRecommendation {
 export interface AnimeRecommendationsResponse {
   data: AnimeRecommendation[];
 }
+
+export interface FilterValues {
+  type: string;
+  rating: string;
+  orderBy: string;
+  sort: string;
+}
