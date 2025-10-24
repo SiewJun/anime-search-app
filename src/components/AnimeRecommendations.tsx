@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import type { AnimeRecommendation } from "../types/anime";
 import { Skeleton } from "./ui/skeleton";
 import { Alert, AlertDescription } from "./ui/alert";
 import { EmptyState } from "./EmptyState";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { fetchRecommendations, clearRecommendations } from "../store/slices/animeSlice";
 
 interface AnimeRecommendationsProps {
   animeId: number;
@@ -11,46 +12,26 @@ interface AnimeRecommendationsProps {
 
 export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
   const navigate = useNavigate();
-  const [recommendations, setRecommendations] = useState<AnimeRecommendation[]>(
-    []
-  );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { recommendations, recommendationsLoading, recommendationsError } =
+    useAppSelector((state) => state.anime);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch(
-          `https://api.jikan.moe/v4/anime/${animeId}/recommendations`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch recommendations");
-        }
-        const data = await response.json();
-        // Limit to first 12 recommendations
-        setRecommendations(data.data.slice(0, 12));
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to load recommendations"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (animeId) {
-      fetchRecommendations();
+      dispatch(fetchRecommendations(animeId));
     }
-  }, [animeId]);
+
+    return () => {
+      dispatch(clearRecommendations());
+    };
+  }, [animeId, dispatch]);
 
   const handleRecommendationClick = (malId: number) => {
     navigate(`/anime/${malId}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (loading) {
+  if (recommendationsLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h2 className="md:text-2xl text-xl font-bold mb-6">Recommendations</h2>
@@ -63,12 +44,12 @@ export function AnimeRecommendations({ animeId }: AnimeRecommendationsProps) {
     );
   }
 
-  if (error) {
+  if (recommendationsError) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h2 className="md:text-2xl text-xl font-bold mb-6">Recommendations</h2>
         <Alert className="bg-destructive/10 border-destructive text-destructive">
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription>{recommendationsError}</AlertDescription>
         </Alert>
       </div>
     );

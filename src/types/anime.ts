@@ -154,6 +154,7 @@ export interface FullAnimeResponse {
 export interface AnimeState {
   animeList: Anime[];
   selectedAnime: FullAnime | null;
+  recommendations: AnimeRecommendation[];
   loading: boolean;
   error: string | null;
   currentPage: number;
@@ -167,6 +168,8 @@ export interface AnimeState {
     orderBy: string;
     sort: string;
   };
+  recommendationsLoading: boolean;
+  recommendationsError: string | null;
 }
 
 export interface RecommendationImage {

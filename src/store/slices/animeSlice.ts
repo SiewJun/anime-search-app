@@ -6,6 +6,7 @@ import type {
   AnimeState,
   AnimeSearchParams,
   FullAnimeResponse,
+  AnimeRecommendationsResponse,
 } from "../../types/anime";
 
 const JIKAN_API_BASE_URL = "https://api.jikan.moe/v4";
@@ -17,6 +18,7 @@ const jikanApi = axios.create({
 const initialState: AnimeState = {
   animeList: [],
   selectedAnime: null,
+  recommendations: [],
   loading: false,
   error: null,
   currentPage: 1,
@@ -30,6 +32,8 @@ const initialState: AnimeState = {
     orderBy: "mal_id",
     sort: "asc",
   },
+  recommendationsLoading: false,
+  recommendationsError: null,
 };
 
 export const searchAnime = createAsyncThunk<
@@ -95,6 +99,28 @@ export const fetchAnimeById = createAsyncThunk<
   }
 });
 
+export const fetchRecommendations = createAsyncThunk<
+  AnimeRecommendationsResponse,
+  number,
+  { rejectValue: string }
+>("anime/fetchRecommendations", async (malId, { rejectWithValue }) => {
+  try {
+    const response = await jikanApi.get<AnimeRecommendationsResponse>(
+      `/anime/${malId}/recommendations`
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to fetch recommendations"
+      );
+    }
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
 const animeSlice = createSlice({
   name: "anime",
   initialState,
@@ -137,6 +163,10 @@ const animeSlice = createSlice({
     clearSelectedAnime: (state) => {
       state.selectedAnime = null;
     },
+    clearRecommendations: (state) => {
+      state.recommendations = [];
+      state.recommendationsError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -172,6 +202,20 @@ const animeSlice = createSlice({
       .addCase(fetchAnimeById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to fetch anime details";
+      })
+      .addCase(fetchRecommendations.pending, (state) => {
+        state.recommendationsLoading = true;
+        state.recommendationsError = null;
+      })
+      .addCase(fetchRecommendations.fulfilled, (state, action) => {
+        state.recommendationsLoading = false;
+        state.recommendations = action.payload.data.slice(0, 12);
+        state.recommendationsError = null;
+      })
+      .addCase(fetchRecommendations.rejected, (state, action) => {
+        state.recommendationsLoading = false;
+        state.recommendationsError =
+          action.payload || "Failed to fetch recommendations";
       });
   },
 });
@@ -184,6 +228,7 @@ export const {
   clearAnimeList,
   clearError,
   clearSelectedAnime,
+  clearRecommendations,
 } = animeSlice.actions;
 
 export default animeSlice.reducer;

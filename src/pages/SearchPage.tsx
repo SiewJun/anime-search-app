@@ -1,6 +1,6 @@
 import { SearchBar } from "../components/SearchBar";
 import { FilterBar } from "../components/FilterBar";
-import type { FilterValues } from "../components/FilterBar";
+import type { FilterValues } from "../types/anime";
 import { SearchHeader } from "../components/SearchHeader";
 import { SearchSuggestions } from "../components/SearchSuggestions";
 import { AnimeGrid } from "../components/AnimeGrid";
