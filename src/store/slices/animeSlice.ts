@@ -156,6 +156,7 @@ const animeSlice = createSlice({
       state.hasNextPage = false;
       state.lastVisiblePage = 1;
       state.totalItems = 0;
+      state.loading = false;
     },
     clearError: (state) => {
       state.error = null;
@@ -188,6 +189,7 @@ const animeSlice = createSlice({
           return;
         }
         state.loading = false;
+        
         state.error = action.payload || "Failed to search anime";
       })
       .addCase(fetchAnimeById.pending, (state) => {
