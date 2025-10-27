@@ -118,6 +118,7 @@ export interface AnimeSearchParams {
   rating?: string;
   order_by?: string;
   sort?: string;
+  signal?: AbortSignal;
 }
 
 export interface AnimeRelation {

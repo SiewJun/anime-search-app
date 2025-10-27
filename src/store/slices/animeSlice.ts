@@ -40,7 +40,7 @@ export const searchAnime = createAsyncThunk<
   AnimeSearchResponse,
   AnimeSearchParams,
   { rejectValue: string }
->("anime/searchAnime", async (params, { rejectWithValue, signal }) => {
+>("anime/searchAnime", async (params, { rejectWithValue }) => {
   try {
     const queryParams = new URLSearchParams();
 
@@ -59,7 +59,7 @@ export const searchAnime = createAsyncThunk<
 
     const response = await jikanApi.get<AnimeSearchResponse>(
       `/anime?${queryParams.toString()}`,
-      { signal }
+      { signal: params.signal }
     );
     return response.data;
   } catch (error) {

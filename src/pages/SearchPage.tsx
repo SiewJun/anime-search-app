@@ -54,7 +54,8 @@ export function SearchPage() {
       abortControllerRef.current.abort();
     }
 
-    abortControllerRef.current = new AbortController();
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
     const debounceTimer = setTimeout(() => {
       dispatch(setSearchQuery(inputValue));
@@ -70,6 +71,7 @@ export function SearchPage() {
             rating: filters.rating,
             order_by: filters.orderBy,
             sort: filters.sort,
+            signal: abortController.signal,
           })
         );
       } else {
@@ -80,6 +82,7 @@ export function SearchPage() {
 
     return () => {
       clearTimeout(debounceTimer);
+      abortController.abort();
     };
   }, [inputValue, filters, dispatch]);
 
@@ -97,6 +100,13 @@ export function SearchPage() {
   const handlePageChange = (newPage: number) => {
     if (newPage < 1) return;
 
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     dispatch(setCurrentPage(newPage));
     dispatch(
       searchAnime({
@@ -107,6 +117,7 @@ export function SearchPage() {
         rating: filters.rating,
         order_by: filters.orderBy,
         sort: filters.sort,
+        signal: abortController.signal,
       })
     );
 
