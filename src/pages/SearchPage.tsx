@@ -42,6 +42,10 @@ export function SearchPage() {
   const showCenteredLayout = !loading && animeList.length === 0;
 
   useEffect(() => {
+    if (!showCenteredLayout) {
+      return;
+    }
+
     const focusTimer = setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
@@ -130,127 +134,134 @@ export function SearchPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className={`transition-all duration-700 ease-in-out ${showCenteredLayout ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'}`}>
-        {showCenteredLayout && (
-          <div className="flex flex-col items-center min-h-screen px-4 py-12">
-            <div className="w-full max-w-2xl flex flex-col items-center gap-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
-              <SearchHeader />
+      <header
+        className={`transition-all duration-700 ease-in-out ${
+          showCenteredLayout
+            ? "flex flex-col items-center justify-center min-h-screen px-4 py-12"
+            : "border-border border-b sticky top-0 z-10 bg-background/95 backdrop-blur-sm"
+        }`}
+      >
+        <div
+          className={
+            showCenteredLayout
+              ? "w-full max-w-2xl flex flex-col items-center gap-6"
+              : "container mx-auto p-4 flex flex-col gap-4"
+          }
+        >
+          <div
+            className={
+              showCenteredLayout
+                ? "w-full animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+                : "hidden"
+            }
+          >
+            <SearchHeader />
+          </div>
 
-              <div className="w-full mt-2 animate-in fade-in-0 slide-in-from-bottom-2 duration-500 delay-100">
-                <SearchBar
-                  ref={inputRef}
-                  value={inputValue}
-                  onChange={setInputValue}
-                  placeholder="Search for Naruto, One Piece, etc."
-                />
-                {!inputValue.trim() && (
-                  <div className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-200">
-                    <SearchSuggestions onSuggestionClick={setInputValue} />
-                  </div>
-                )}
-              </div>
-
-              <div className="w-full animate-in fade-in-0 slide-in-from-bottom-1 duration-500 delay-300">
-                <FilterBar
-                  filters={filters}
-                  onFilterChange={handleFilterChange}
-                  onReset={handleResetFilters}
-                />
-              </div>
-
-              {error && (
-                <div className="w-full animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-400">
-                  <Alert className="w-full bg-destructive/10 border-destructive text-destructive">
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
+          <div
+            className={
+              showCenteredLayout
+                ? "w-full mt-2 animate-in fade-in-0 slide-in-from-bottom-2 duration-500 delay-100 flex flex-col items-center gap-4"
+                : "flex flex-col lg:flex-row justify-between items-center gap-2 lg:gap-4"
+            }
+          >
+            <img
+              src={SearchAnimeIcon}
+              className={
+                showCenteredLayout
+                  ? "hidden"
+                  : "w-16 h-16 hover:scale-105 transition-transform duration-200"
+              }
+              alt="Search Anime"
+            />
+            <div className={showCenteredLayout ? "w-full" : "w-full lg:max-w-3xl"}>
+              <SearchBar
+                ref={inputRef}
+                value={inputValue}
+                onChange={setInputValue}
+                placeholder="Search for Naruto, One Piece, etc."
+              />
+              {showCenteredLayout && !inputValue.trim() && (
+                <div className="mt-2 animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-200">
+                  <SearchSuggestions onSuggestionClick={setInputValue} />
                 </div>
               )}
-
-              {hasSearched &&
-                !loading &&
-                animeList.length === 0 &&
-                inputValue.trim() && (
-                  <div className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-500">
-                    <EmptyState
-                      title="No Results Found"
-                      description="Try searching for a different anime title"
-                    />
-                  </div>
-                )}
             </div>
           </div>
-        )}
-      </div>
 
-      <div className={`transition-all duration-700 ease-in-out ${!showCenteredLayout ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'}`}>
-        {!showCenteredLayout && (
-          <>
-            <header className="border-border border-b sticky top-0 z-10 bg-background/95 backdrop-blur-sm animate-in slide-in-from-top-2 duration-300">
-              <div className="container mx-auto p-4">
-                <div className="flex flex-col lg:flex-row justify-between items-center gap-2 lg:gap-4">
-                  <img
-                    src={SearchAnimeIcon}
-                    className="w-16 h-16 hover:scale-105 transition-transform duration-200"
-                    alt="Search Anime"
-                  />
-                  <SearchBar
-                    ref={inputRef}
-                    value={inputValue}
-                    onChange={setInputValue}
-                    placeholder="Search for Naruto, One Piece, etc."
-                  />
-                </div>
-                <div className="mt-4 animate-in fade-in-0 slide-in-from-top-1 duration-300 delay-100">
-                  <FilterBar
-                    filters={filters}
-                    onFilterChange={handleFilterChange}
-                    onReset={handleResetFilters}
-                  />
-                </div>
-              </div>
-            </header>
+          <div
+            className={`w-full ${
+              showCenteredLayout
+                ? "animate-in fade-in-0 slide-in-from-bottom-1 duration-500 delay-300"
+                : "mt-4"
+            }`}
+          >
+            <FilterBar
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onReset={handleResetFilters}
+            />
+          </div>
 
-            <main className="container mx-auto p-4 animate-in fade-in-0 slide-in-from-bottom-2 duration-500 delay-200">
-              {error && (
-                <Alert className="mb-4 bg-destructive/10 border-destructive text-destructive animate-in fade-in-0 slide-in-from-bottom-1 duration-300">
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
+          {showCenteredLayout && error && (
+            <div className="w-full animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-400">
+              <Alert className="w-full bg-destructive/10 border-destructive text-destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            </div>
+          )}
 
-              <div className="mt-6">
-                {!loading && animeList.length > 0 && (
-                  <>
-                    <div className="mb-4 text-sm text-muted-foreground animate-in fade-in-0 slide-in-from-bottom-1 duration-300">
-                      Found {totalItems.toLocaleString()} results for "
-                      <span className="font-medium text-foreground">{searchQuery}</span>"
-                    </div>
-                  </>
-                )}
-                <AnimeGrid
-                  animeList={animeList}
-                  loading={loading}
-                  onAnimeClick={handleAnimeClick}
+          {showCenteredLayout &&
+            hasSearched &&
+            !loading &&
+            animeList.length === 0 &&
+            inputValue.trim() && (
+              <div className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-500">
+                <EmptyState
+                  title="No Results Found"
+                  description="Try searching for a different anime title"
                 />
               </div>
+            )}
+        </div>
+      </header>
 
-              {!loading && animeList.length > 0 && (
-                <>
-                  <div className="mt-8 mb-4 animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-300">
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={totalItems > 0 ? Math.ceil(totalItems / 20) : 1}
-                      onPageChange={handlePageChange}
-                      disabled={loading}
-                      siblingCount={1}
-                      boundaryCount={1}
-                    />
-                  </div>
-                </>
-              )}
-            </main>
-          </>
-        )}
-      </div>
+      {!showCenteredLayout && (
+        <main className="container mx-auto p-4 animate-in fade-in-0 slide-in-from-bottom-2 duration-500 delay-200">
+          {error && (
+            <Alert className="mb-4 bg-destructive/10 border-destructive text-destructive animate-in fade-in-0 slide-in-from-bottom-1 duration-300">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <div className="mt-6">
+            {!loading && animeList.length > 0 && (
+              <div className="mb-4 text-sm text-muted-foreground animate-in fade-in-0 slide-in-from-bottom-1 duration-300">
+                Found {totalItems.toLocaleString()} results for "
+                <span className="font-medium text-foreground">{searchQuery}</span>"
+              </div>
+            )}
+            <AnimeGrid
+              animeList={animeList}
+              loading={loading}
+              onAnimeClick={handleAnimeClick}
+            />
+          </div>
+
+          {!loading && animeList.length > 0 && (
+            <div className="mt-8 mb-4 animate-in fade-in-0 slide-in-from-bottom-1 duration-300 delay-300">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalItems > 0 ? Math.ceil(totalItems / 20) : 1}
+                onPageChange={handlePageChange}
+                disabled={loading}
+                siblingCount={1}
+                boundaryCount={1}
+              />
+            </div>
+          )}
+        </main>
+      )}
     </div>
   );
 }
